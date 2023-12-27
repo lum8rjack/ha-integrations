@@ -15,6 +15,20 @@ sensor:
   - platform: public_ip
 ```
 
+## stl_superpark
+
+The STL Super Park integration displays the parking availability at the St. Louis Airport. The integration sends a GET request to `https://superparkinglot.com` every 15 minutes and parses the parking availability for each lot.
+
+![stl_superpark](assets/stl_superpark.png)
+
+- Copy the `stl_superpark` directory to the configuration folder `config/custom_components/`
+- Add the integration to the yaml configuration file
+
+```
+sensor:
+  - platform: stl_superpark
+```
+
 ## Helpful Links
 
 - https://developers.home-assistant.io/docs/core/entity/sensor
