@@ -1,4 +1,4 @@
-"""Sensor for displaying the number of result on Shodan.io."""
+"""Sensor for displaying the user's public IP address."""
 from __future__ import annotations
 
 from datetime import timedelta
