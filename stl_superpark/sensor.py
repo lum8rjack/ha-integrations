@@ -118,19 +118,21 @@ class STLSuperParkData:
         # Get element using XPath
         for key, value in LOCATION_DICTIONARY.items():
             availability = tree.xpath(value)
-            percent = availability[0]
+            percent = availability[0].strip()
+            if percent == "FULL":
+                percent = 0
 
             if "Terminal 1" == key:
-                self.spaces["t1"] = percent.strip()
+                self.spaces["t1"] = percent
             elif "Terminal 2" == key:
-                self.spaces["t2"] = percent.strip()
+                self.spaces["t2"] = percent
             elif "Lot A" == key:
-                self.spaces["a"] = percent.strip()
+                self.spaces["a"] = percent
             elif "Lot B" == key:
-                self.spaces["b"] = percent.strip()
+                self.spaces["b"] = percent
             elif "Lot C" == key:
-                self.spaces["c"] = percent.strip()
+                self.spaces["c"] = percent
             elif "Lot D" == key:
-                self.spaces["d"] = percent.strip()
+                self.spaces["d"] = percent
             elif "Lot E" == key:
-                self.spaces["e"] = percent.strip()
+                self.spaces["e"] = percent
