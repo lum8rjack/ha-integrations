@@ -29,6 +29,15 @@ sensor:
   - platform: stl_superpark
 ```
 
+## tsa_wait_time
+
+The TSA Wait Time integration displays the current TSA security line wait time for the specified airport in the configuration file. The integration sends a GET request to `https://www.tsa.gov/api/checkpoint_waittime/v1/{{AIRPORT CODE}}` every 15 minutes and parses the wait time.
+
+![tsa_wait_time](assets/tsa_wait_time.png)
+
+- Copy the sensor details from the `tsa_wait_time/configuration.yaml` file and add to your Home Assistant configuration `config/configuration.yaml`
+- Change the airport code to match the airport you would like to monitor
+
 ## Helpful Links
 
 - https://developers.home-assistant.io/docs/core/entity/sensor

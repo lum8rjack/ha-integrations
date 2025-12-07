@@ -1,0 +1,15 @@
+sensor:
+  - platform: rest
+    name: "STL TSA Wait Time" # Change 'STL' to the airport you would like to monitor
+    resource: https://www.tsa.gov/api/checkpoint_waittime/v1/STL # Change 'STL' to the airport code you would like to monitor
+    method: GET
+    value_template: >
+      {% set now = now() %}
+      {% set day = now.strftime('%A') %}
+      {% set hour = now.strftime('%-H') %}
+      {% set entry = value_json.data | selectattr('day', 'equalto', day)
+                                      | selectattr('hour', 'equalto', hour)
+                                      | list | first %}
+      {{ entry.max_standard_wait if entry is defined else 'unknown' }}
+    unit_of_measurement: "minutes"
+    scan_interval: 900  # Update every 15 minutes
