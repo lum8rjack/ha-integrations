@@ -15,16 +15,16 @@ from homeassistant.helpers.entity import Entity
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "STL Super Park"
-DEFAULT_URL = "https://superparkinglot.com/"
+DEFAULT_URL = "https://www.flystl.com/parking-transportation/#parking"
 SCAN_INTERVAL = timedelta(minutes=15)
 LOCATION_DICTIONARY = {
-    "Terminal 1": "//a[@href='https://superparkinglot.com/terminal-1']/div/p[@class='availability']/text()",
-    "Terminal 2": "//a[@href='https://superparkinglot.com/terminal-2']/div/p[@class='availability']/text()",
-    "Lot A": "//a[@href='https://superparkinglot.com/lot-a']/div/p[@class='availability']/text()",
-    "Lot B": "//a[@href='https://superparkinglot.com/lot-b']/div/p[@class='availability']/text()",
-    "Lot C": "//a[@href='https://superparkinglot.com/lot-c']/div/p[@class='availability']/text()",
-    "Lot D": "//a[@href='https://superparkinglot.com/lot-d']/div/p[@class='availability']/text()",
-    "Lot E": "//a[@href='https://superparkinglot.com/lot-e']/div/p[@class='availability']/text()"
+    "Terminal 1": '//*[@id="parking"]/div/div[2]/div/div[1]/section[1]/a/div[1]/div[2]/p[1]',
+    "Terminal 2": '//*[@id="parking"]/div/div[2]/div/div[1]/section[2]/a/div[1]/div[2]/p[1]',
+    "Lot A": '//*[@id="parking"]/div/div[2]/div/div[1]/section[3]/a/div[1]/div[2]/p[1]',
+    "Lot B": '//*[@id="parking"]/div/div[2]/div/div[1]/section[4]/a/div[1]/div[2]/p[1]',
+    "Lot C": '//*[@id="parking"]/div/div[2]/div/div[1]/section[5]/a/div[1]/div[2]/p[1]',
+    "Lot D": '//*[@id="parking"]/div/div[2]/div/div[1]/section[6]/a/div[1]/div[2]/p[1]',
+    "Lot E": '//*[@id="parking"]/div/div[2]/div/div[1]/section[7]/a/div[1]/div[2]/p[1]'
 }
 
 # Validation of the user's configuration
@@ -112,14 +112,14 @@ class STLSuperParkData:
             _LOGGER.error(f"Error getting STL Parking data: {ex}")
 
     def update(self):
-        page = requests.get(DEFAULT_URL, timeout=2.50)
+        page = requests.get(DEFAULT_URL, timeout=5)
         tree = html.fromstring(page.content)
 
         # Get element using XPath
         for key, value in LOCATION_DICTIONARY.items():
             availability = tree.xpath(value)
-            percent = availability[0].strip()
-            if percent == "FULL":
+            percent = availability[0].text_content().strip().replace("%", "")
+            if percent.upper() == "FULL":
                 percent = 0
 
             if "Terminal 1" == key:
