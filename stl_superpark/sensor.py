@@ -15,7 +15,7 @@ from homeassistant.helpers.entity import Entity
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "STL Super Park"
-DEFAULT_URL = "https://www.flystl.com/parking-transportation/#parking"
+DEFAULT_URL = "https://www.flystl.com/parking-transportation/"
 SCAN_INTERVAL = timedelta(minutes=15)
 LOCATION_DICTIONARY = {
     "Terminal 1": '//*[@id="parking"]/div/div[2]/div/div[1]/section[1]/a/div[1]/div[2]/p[1]',
@@ -112,7 +112,11 @@ class STLSuperParkData:
             _LOGGER.error(f"Error getting STL Parking data: {ex}")
 
     def update(self):
-        page = requests.get(DEFAULT_URL, timeout=5)
+        # Set headers
+        custom_headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36","Accept-Lanugage": "en-US,en;q=0.9"}
+
+	# Send request
+        page = requests.get(DEFAULT_URL, headers=custom_headers, timeout=5.0)
         tree = html.fromstring(page.content)
 
         # Get element using XPath
